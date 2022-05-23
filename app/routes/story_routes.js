@@ -31,11 +31,13 @@ const router = express.Router()
 // CREATE
 // POST /stories
 router.post('/stories', requireToken, (req, res, next) => {
-  // set owner of new example to be current user
-  req.body.story.owner = req.user.id
+  // get story data from request
+  const story = req.body.story
+  // set owner of new story to be current user
+  story.owner = req.user.id
 
-  Story.create(req.body.story)
-    // respond to succesful `create` with status 201 and JSON of new "story"
+  Story.create(story)
+    // respond to successful `create` with status 201 and JSON of new "story"
     .then(story => {
       res.status(201).json({ story: story.toObject() })
     })
