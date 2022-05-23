@@ -12,6 +12,7 @@ curl "${API}${URL_PATH}" \
     "story": {
       "title": "'"${TITLE}"'",
       "author": "'"${AUTHOR}"'",
+      "description": "'"${DESCRIPTION}"'",
       "date": "'"${DATE}"'",
       "content": "'"${CONTENT}"'",
       "owner": "'"${OWNER}"'"
