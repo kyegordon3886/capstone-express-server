@@ -119,18 +119,64 @@ router.delete('/stories/:id', requireToken, (req, res, next) => {
 // PATCH /like/:id
 // must use different url path (like instead of stories) since we're already using patch for events above
 router.patch('/like/:id', requireToken, (req, res, next) => {
+  console.log(req.body) // body: { likes: { user: '628be6558fd28e6920c911d2', likeStatus: [] } },
+  console.log('in router.patch for liked')
   const likeData = req.body.likes // coming from client/has to match up with model / must use this in curl script
   const storyId = req.params.id
 
   Story.findById(storyId)
     .then(handle404)
-    .then(story => {
+    // .then(() => {
+    //   this.setState({ liked: this.state.story.likes.filter(like => like.user === user.id) })
+    // })
+    .then((story) => {
       // push like data into story
-      story.likes.push(likeData)
+      // if liked, owned by user exists in this story, update that one
+      console.log('array of all likes for story')
+      console.log(story.likes)
+      console.log('user id')
+      console.log(likeData._id)
+      const foundLikeIndex = story.likes.findIndex(likes => likes.user == req.user.id)
+      // leave it loosly equal to the user.id
+      // foundLikeIndex is a number
+      // !foundLike is saying if there is no like that matches the user id, then push in the new kike to the array
+      if (foundLikeIndex === -1) {
+        // make a new like, and push it into the likes array
+        story.likes.push(likeData)
+      } else {
+      // if there a likeStatus found for the user, switch it to it's opposite
+        story.likes[foundLikeIndex].likeStatus = !story.likes[foundLikeIndex].likeStatus
+        console.log('found like')
+        console.log('flipping like')
+      }
+      console.log(foundLikeIndex)
+      // if (story.data.likes === false) {
+      //   return (story.data.likes.likeStatus.user = true)
+      // } else if (story.likeStatus === true) {
+      //   return (story.likeStatus = false)
+      // }
+      // otherwise, make a new like
+      // console.log(story)
+      // console.log(story.data)
       return story.save()
     })
     .then(() => res.sendStatus(204))
     .catch(next)
 })
+// const arr = [
+//   {id: 1, name: 'Alice'},
+//   {id: 2, name: 'Bob'},
+// ];
+
+// const index = arr.findIndex(object => {
+//   return object.id === 2;
+// }); // 👉️ 1
+
+// if (index !== -1) {
+//   arr[index].name = 'John';
+// }
+
+// // 👇️ [{id: 1, name: 'Alice'}, {id: 2, name: 'John'}]
+// console.log(arr);
 
 module.exports = router
