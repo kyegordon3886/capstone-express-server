@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const commentSchema = require('./comments')
+const likeSchema = require('./like')
 const storySchema = new mongoose.Schema(
   {
     title: {
@@ -27,7 +28,9 @@ const storySchema = new mongoose.Schema(
       required: true
     },
     // subdoc for comment schema
-    comment: [commentSchema]
+    comment: [commentSchema],
+    // subdoc for like schema
+    likes: [likeSchema]
   },
   {
     timestamps: true
