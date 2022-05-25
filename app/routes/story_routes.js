@@ -115,22 +115,22 @@ router.delete('/stories/:id', requireToken, (req, res, next) => {
     .catch(next)
 })
 
-// // UPDATE
-// // PATCH /rsvp/:id
-// // must use different url path (rsvp instead of events) since we're already using patch for events above
-// router.patch('/rsvp/:id', requireToken, (req, res, next) => {
-//   const rsvpData = req.body.rsvps // coming from client/has to match up with model / must use this in curl script
-//   const eventId = req.params.id
+// UPDATE
+// PATCH /like/:id
+// must use different url path (like instead of stories) since we're already using patch for events above
+router.patch('/like/:id', requireToken, (req, res, next) => {
+  const likeData = req.body.likes // coming from client/has to match up with model / must use this in curl script
+  const storyId = req.params.id
 
-//   Event.findById(eventId)
-//     .then(handle404)
-//     .then(event => {
-//       // push rsvp data into event
-//       event.rsvps.push(rsvpData)
-//       return event.save()
-//     })
-//     .then(() => res.sendStatus(204))
-//     .catch(next)
-// })
+  Story.findById(storyId)
+    .then(handle404)
+    .then(story => {
+      // push like data into story
+      story.likes.push(likeData)
+      return story.save()
+    })
+    .then(() => res.sendStatus(204))
+    .catch(next)
+})
 
 module.exports = router
