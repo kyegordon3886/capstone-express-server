@@ -119,8 +119,8 @@ router.delete('/stories/:id', requireToken, (req, res, next) => {
 // PATCH /like/:id
 // must use different url path (like instead of stories) since we're already using patch for events above
 router.patch('/like/:id', requireToken, (req, res, next) => {
-  console.log(req.body) // body: { likes: { user: '628be6558fd28e6920c911d2', likeStatus: [] } },
-  console.log('in router.patch for liked')
+  // console.log(req.body) // body: { likes: { user: '628be6558fd28e6920c911d2', likeStatus: [] } },
+  // console.log('in router.patch for liked')
   const likeData = req.body.likes // coming from client/has to match up with model / must use this in curl script
   const storyId = req.params.id
 
@@ -132,10 +132,10 @@ router.patch('/like/:id', requireToken, (req, res, next) => {
     .then((story) => {
       // push like data into story
       // if liked, owned by user exists in this story, update that one
-      console.log('array of all likes for story')
-      console.log(story.likes)
-      console.log('user id')
-      console.log(likeData._id)
+      // console.log('array of all likes for story')
+      // console.log(story.likes)
+      // console.log('user id')
+      // console.log(likeData._id)
       const foundLikeIndex = story.likes.findIndex(likes => likes.user == req.user.id)
       // leave it loosly equal to the user.id
       // foundLikeIndex is a number
@@ -146,10 +146,10 @@ router.patch('/like/:id', requireToken, (req, res, next) => {
       } else {
       // if there a likeStatus found for the user, switch it to it's opposite
         story.likes[foundLikeIndex].likeStatus = !story.likes[foundLikeIndex].likeStatus
-        console.log('found like')
-        console.log('flipping like')
+        // console.log('found like')
+        // console.log('flipping like')
       }
-      console.log(foundLikeIndex)
+      // console.log(foundLikeIndex)
       // if (story.data.likes === false) {
       //   return (story.data.likes.likeStatus.user = true)
       // } else if (story.likeStatus === true) {
