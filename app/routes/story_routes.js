@@ -163,20 +163,5 @@ router.patch('/like/:id', requireToken, (req, res, next) => {
     .then(() => res.sendStatus(204))
     .catch(next)
 })
-// const arr = [
-//   {id: 1, name: 'Alice'},
-//   {id: 2, name: 'Bob'},
-// ];
-
-// const index = arr.findIndex(object => {
-//   return object.id === 2;
-// }); // 👉️ 1
-
-// if (index !== -1) {
-//   arr[index].name = 'John';
-// }
-
-// // 👇️ [{id: 1, name: 'Alice'}, {id: 2, name: 'John'}]
-// console.log(arr);
 
 module.exports = router
